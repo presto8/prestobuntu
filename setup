@@ -308,8 +308,8 @@ install_kitty() {
 setup_nvim() {
     if (( UBUNTU_VERSION < 24 )); then
         sudo add-apt-repository ppa:neovim-ppa/unstable -y
+        sudo apt update
     fi
-
     local nvimdir="$HOME/.config/nvim"
     install_package neovim
     mkdir -p "$nvimdir"
