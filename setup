@@ -39,7 +39,6 @@ main() {
         make_journald_persistent
         allow_user_to_view_journalctl
         remove_update_messages_from_motd
-        enable_sudo_without_password
         remove_sudo_warning
         disable_automatic_updates
         disable_unwanted_services
@@ -68,6 +67,7 @@ main() {
         remap_capslock_to_control
         setup_dialout_group
         install_pscripts
+        enable_sudo_without_password
     fi
 
     info "prestobuntu setup complete!"
