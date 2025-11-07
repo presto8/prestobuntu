@@ -27,7 +27,7 @@ main() {
         die "must customize user_config before running; hint: ${EDITOR:-nano} $0"
     fi
 
-    check_sudo
+    check_not_root
     check_ubuntu_version
 
     if [[ $INSTALL_MODE == *system* ]]; then
@@ -75,7 +75,7 @@ main() {
 
 mute() { "$@" &>/dev/null; }
 
-check_sudo() {
+check_not_root() {
     if (( UID == 0 )); then
         die "must not run as root (tip: don't use sudo)"
     fi
