@@ -47,6 +47,7 @@ main() {
         disable_graphical_grub
         cloudflare_dns
         disable_sleep
+        install_tailscale
     fi
 
     if [[ $INSTALL_MODE == *user* ]]; then
@@ -419,6 +420,10 @@ configure_gnome_settings() {
 
 disable_sleep() {
     _systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+}
+
+install_tailscale() {
+    curl -fsSL https://tailscale.com/install.sh | sudo sh
 }
 
 disable_if_installed() {
