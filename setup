@@ -60,7 +60,7 @@ main() {
         install_ripgrep
         install_fd
         install_rofi_greenclip
-        install_kitty
+        install_kitty_terminfo
         cleanup_user_home
         configure_gnome_settings
         disable_suspend_on_lid_closed
@@ -300,8 +300,8 @@ install_rofi_greenclip() {
     sudo install /tmp/greenclip /usr/local/bin
 }
 
-install_kitty() {
-    : install kitty mostly to get terminfo file
+install_kitty_terminfo() {
+    : install kitty terminfo so screen and vim work correctly
     install_package kitty
 }
 
