@@ -404,6 +404,12 @@ cleanup_user_home() {
 }
 
 configure_gnome_settings() {
+    if ! which gettings &>/dev/null; then
+        info "configure_gnome_settings: skipping since gsettings is not available"
+        return
+    fi
+
+    info "configuring gnome settings..."
     gsettings="gsettings"
     $gsettings set org.gnome.desktop.wm.preferences focus-mode 'sloppy'
     $gsettings set org.gnome.desktop.screensaver lock-enabled false
