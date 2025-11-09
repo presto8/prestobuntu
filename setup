@@ -243,6 +243,9 @@ EOF
     get_prestobuntu_file "autoscreen.zsh" "$ZDOTDIR/autoscreen.zsh"
     _require_line "source $ZDOTDIR/autoscreen.zsh" "$ZDOTDIR/.zshrc"
 
+    # prestobuntu.zsh
+    get_prestobuntu_file "prestobuntu.zsh" "$ZDOTDIR/prestobuntu.zsh"
+
     # disable zprezto corrections
     _require_line "unsetopt correct" "$ZDOTDIR/.zshrc"
 
