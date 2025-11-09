@@ -29,6 +29,12 @@ zstyle ':completion:*:warnings' format "%B-- no match for: %d --%b"
 setopt extendedglob
 unsetopt caseglob
 
+# disable zprezto corrections
+unsetopt correct
+
+# fully complete on tab even if ambiguous
+setopt menu_complete
+
 # History options
 bindkey -e  # emacs command line editing mode
 HISTFILE=~/.histfile

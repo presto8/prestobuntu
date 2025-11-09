@@ -245,12 +245,6 @@ EOF
 
     # prestobuntu.zsh
     get_prestobuntu_file "prestobuntu.zsh" "$ZDOTDIR/prestobuntu.zsh"
-
-    # disable zprezto corrections
-    _require_line "unsetopt correct" "$ZDOTDIR/.zshrc"
-
-    # fully complete on tab even if ambiguous
-    _require_line "setopt menu_complete" "$ZDOTDIR/.zshrc"
 }
 
 setup_screen() {
