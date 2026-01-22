@@ -40,6 +40,7 @@ main() {
         allow_user_to_view_journalctl
         remove_update_messages_from_motd
         remove_sudo_warning
+        pass_http_thru_sudo
         disable_automatic_updates
         disable_unwanted_services
         disable_login_messages
@@ -177,6 +178,10 @@ enable_sudo_without_password() {
 
 remove_sudo_warning() {
     touch "$HOME/.sudo_as_admin_successful"
+}
+
+pass_http_thru_sudo() {
+    _require_line 'Defaults:%sudo env_keep += "http_proxy https_proxy"' /etc/sudoers
 }
 
 setup_ssh() {
