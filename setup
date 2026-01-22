@@ -89,7 +89,7 @@ check_not_root() {
 apt_update() {
     if [[ ! -v HAVE_APT_UPDATE ]]; then
         kill_apt_inhibitors
-        sudo apt-get update
+        sudo -E apt-get update
         HAVE_APT_UPDATE=1
     fi
 }
