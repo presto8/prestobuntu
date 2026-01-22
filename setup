@@ -99,7 +99,8 @@ install_package() {
         if ! dpkg -s "$pkg" | grep -q "Status: install ok installed"; then
             apt_update
             info "installing $pkg"
-            sudo apt-get install -y "$pkg"
+            # use sudo -E in case user has set http_proxy
+            sudo -E apt-get install -y "$pkg"
         fi
     done
 }
@@ -305,8 +306,9 @@ install_kitty_terminfo() {
 
 setup_nvim() {
     if (( UBUNTU_VERSION < 24 )); then
-        sudo add-apt-repository ppa:neovim-ppa/unstable -y
-        sudo apt update
+        # use sudo -E in case user has set http_proxy
+        sudo -E add-apt-repository ppa:neovim-ppa/unstable -y
+        sudo -E apt update
     fi
     local nvimdir="$HOME/.config/nvim"
     install_package neovim
