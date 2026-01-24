@@ -330,9 +330,14 @@ setup_nvim() {
 
 setup_static_ip_address() {
     if [[ -v STATIC_IFACE && $STATIC_IFACE ]]; then
-        connection_name=$(nmcli -g general.connection device show "$STATIC_IFACE")
-        nmcli connection modify "$connection_name" ipv4.addresses "$STATIC_ADDRESS"
-        nmcli connection modify "$connection_name" ipv4.method manual
+        name="static-$STATIC_IFACE"
+        nmcli connection add type ethernet \
+            con-name "$name" \
+            ifname "$STATIC_IFACE" \
+            ipv4.method manual \
+            ipv4.addresses "$STATIC_ADDRESS" \
+            ipv6.method ignore
+        nmcli connection up "$name"
     fi
 }
 
