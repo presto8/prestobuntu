@@ -252,6 +252,11 @@ EOF
     # prestobuntu.zsh
     get_prestobuntu_file "prestobuntu.zsh" "$ZDOTDIR/prestobuntu.zsh"
     _require_line "source $ZDOTDIR/prestobuntu.zsh" "$ZDOTDIR/.zshrc"
+
+    # powerlevel10k
+    get_prestobuntu_file "p10k.zsh" "$ZDOTDIR/p10k.zsh"
+    _require_line "source $ZDOTDIR/p10k.zsh" "$ZDOTDIR/.zshrc"
+    _require_line "zstyle ':prezto:module:prompt' theme 'powerlevel10k'" "$ZDOTDIR/.zpreztorc"
 }
 
 setup_screen() {
