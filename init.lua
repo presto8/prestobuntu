@@ -23,7 +23,12 @@ require("lazy").setup({
         vim.keymap.set('c', 'Gd', 'Gdiffsplit', { noremap = true })
       end,
   },
-  "tpope/vim-commentary",
+  { "tpope/vim-commentary",
+    keys = {
+      {"-", "<cmd>Commentary<cr><down>", desc = "Toggle comment on current line and move down" },
+      {"-", "<cmd>Commentary<cr>", mode = "v", desc = "Comment region" }, # not working
+    },
+  },
   "tpope/vim-unimpaired",
   "ervandew/supertab",
   "w0rp/ale",
