@@ -20,6 +20,8 @@ user_config() {
     # STATIC_ADDRESS="192.168.250.302/24"
 }
 
+XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
+
 main() {
     user_config
 
@@ -218,7 +220,6 @@ setup_zsh_with_prezto() {
     install_package zsh
     sudo chsh -s /usr/bin/zsh "$USER"
 
-    XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
     local ZDOTDIR=$XDG_CONFIG_HOME/zsh
     local ZPREZTODIR=$ZDOTDIR/.zprezto
 
@@ -275,6 +276,12 @@ EOF
 
 setup_tmux() {
     install_package tmux tmuxinator
+
+    local plugdir="$XDG_CONFIG_HOME/tmux/plugins"
+    mkdir -p "$plugdir"
+
+    # Tmux Plugin Manager
+    git clone https://github.com/tmux-plugins/tpm "$plugdir/tpm"
 }
 
 install_development_packages() {
