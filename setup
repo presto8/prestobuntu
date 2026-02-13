@@ -274,15 +274,16 @@ setenv SSH_AUTH_SOCK $HOME/.ssh/ssh_auth_sock
 EOF
 }
 
-setup_tmux() {
+setup_tmux() (
     install_package tmux tmuxinator
 
     local plugdir="$XDG_CONFIG_HOME/tmux/plugins"
     mkdir -p "$plugdir"
-
-    # Tmux Plugin Manager
-    git clone https://github.com/tmux-plugins/tpm "$plugdir/tpm"
-}
+    cd "$plugdir"
+    git clone https://github.com/tmux-plugins/tpm
+    git clone https://github.com/tmux-plugins/tmux-sensible
+    git clone https://github.com/laktak/extrakto
+)
 
 install_development_packages() {
     install_package exuberant-ctags
