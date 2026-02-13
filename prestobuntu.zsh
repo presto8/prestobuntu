@@ -1,3 +1,4 @@
+export PATH="$HOME/.local/bin:$PATH"
 export VISUAL=vim
 export EDITOR=$VISUAL
 export LS_COLORS="ln=4:di=1;36"  # underline links, dirs bright blue
