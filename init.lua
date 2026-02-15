@@ -108,3 +108,6 @@ vim.opt. linebreak = true;
 
 -- Tags
 vim.opt.tags = "./tags,tags,../tags,../../tags";
+
+-- Save undo information between sessions
+vim.opt.undofile = true
