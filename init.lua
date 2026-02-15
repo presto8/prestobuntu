@@ -25,8 +25,8 @@ require("lazy").setup({
   },
   { "tpope/vim-commentary",
     keys = {
-      {"-", "<cmd>Commentary<cr><down>", desc = "Toggle comment on current line and move down" },
-      {"-", "<cmd>Commentary<cr>", mode = "v", desc = "Comment region" }, -- not working
+      {"-", "<Plug>Commentary<cr><down>", desc = "Toggle comment on current line and move down" },
+      {"-", "<Plug>Commentary", mode = { "n", "x" }, desc = "Comment region" },
     },
   },
   "tpope/vim-unimpaired",
