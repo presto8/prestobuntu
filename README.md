@@ -15,11 +15,12 @@ changes once.
   - Disable cups, whoopsie, apt-daily, automatic updates
 - Remote access
   - openssh-server, with pre-install authorized keys
+  - tailscale
 - Filesystem
   - Remove empty directories from /home/user
 - Install packages
   - screen, tmux, git, exuberant-ctags, fd
-- Vim
+- Neovim
   - Plugins: vim-sensible, vim-fugitive, vim-commentary, vim-unimpaired,
     supertab, ale, lightline, fzf, vim-gitgutter, vim-foldsearch, vim-ripgrep
 - Shell
