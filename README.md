@@ -18,7 +18,7 @@ changes once.
 - Filesystem
   - Remove empty directories from /home/user
 - Install packages
-  - screen, git, exuberant-ctags, fd
+  - screen, tmux, git, exuberant-ctags, fd
 - Vim
   - Plugins: vim-sensible, vim-fugitive, vim-commentary, vim-unimpaired,
     supertab, ale, lightline, fzf, vim-gitgutter, vim-foldsearch, vim-ripgrep
