@@ -330,7 +330,7 @@ install_rofi_greenclip() {
 
 install_kitty_terminfo() {
     : install kitty terminfo so screen and vim work correctly
-    install_package kitty
+    install_package kitty-terminfo
 }
 
 setup_nvim() {
