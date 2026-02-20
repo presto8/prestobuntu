@@ -16,6 +16,7 @@ changes once.
 - Remote access
   - openssh-server, with pre-install authorized keys
   - tailscale
+  - corkscrew (for tunnelling ssh over an http proxy)
 - Filesystem
   - Remove empty directories from /home/user
 - Install packages
