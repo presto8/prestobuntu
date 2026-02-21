@@ -62,7 +62,6 @@ alias j='journalctl --no-hostname --follow'
 alias jk='journalctl -k --no-hostname --follow'
 alias setproj='echo $PWD | tee $XDG_RUNTIME_DIR/current_project'
 alias gp='cd $(cat $XDG_RUNTIME_DIR/current_project)'
-alias scr='screen -xR'
 
 sc() {
     if [[ $* == *--user* ]]; then

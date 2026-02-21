@@ -20,7 +20,7 @@ changes once.
 - Filesystem
   - Remove empty directories from /home/user
 - Install packages
-  - screen, tmux, git, exuberant-ctags, fd
+  - tmux, git, exuberant-ctags, fd
 - Neovim
   - Plugins: vim-sensible, vim-fugitive, vim-commentary, vim-unimpaired,
     supertab, ale, lightline, fzf, vim-gitgutter, vim-foldsearch, vim-ripgrep

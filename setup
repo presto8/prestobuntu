@@ -56,7 +56,6 @@ main() {
         setup_git
         setup_zsh_with_prezto
         setup_ssh
-        setup_screen
         setup_nvim
         install_development_packages
         install_wireless_build_packages
@@ -246,10 +245,6 @@ EOF
     git clone https://github.com/zsh-users/zsh-autosuggestions "$ZDOTDIR"/zsh-autosuggestions
     _require_line "source $ZDOTDIR/zsh-autosuggestions/zsh-autosuggestions.zsh" "$ZDOTDIR/.zshrc"
 
-    # autoscreen
-    get_prestobuntu_file "autoscreen.zsh" "$ZDOTDIR/autoscreen.zsh"
-    _require_line "source $ZDOTDIR/autoscreen.zsh" "$ZDOTDIR/.zshrc"
-
     # prestobuntu.zsh
     get_prestobuntu_file "prestobuntu.zsh" "$ZDOTDIR/prestobuntu.zsh"
     _require_line "source $ZDOTDIR/prestobuntu.zsh" "$ZDOTDIR/.zshrc"
@@ -261,20 +256,6 @@ EOF
     # zpreztorc
     rm -f "$ZDOTDIR/.zpreztorc"
     get_prestobuntu_file "zprestorc" "$ZDOTDIR/.zpreztorc"
-}
-
-setup_screen() {
-    install_package screen
-
-    tee $HOME/.screenrc <<'EOF'
-startup_message off
-msgwait 0  # don't show "New screen..." message
-hardstatus alwayslastline
-hardstatus string "%{= KW} %H %{= Kw}%{-} %-Lw%{= bW}%n%f %t%{-}%+Lw %=%h %M %d %c"
-
-# https://gist.github.com/martijnvermaat/8070533#gistcomment-1317075
-setenv SSH_AUTH_SOCK $HOME/.ssh/ssh_auth_sock
-EOF
 }
 
 setup_tmux() (
@@ -330,7 +311,7 @@ install_rofi_greenclip() {
 }
 
 install_kitty_terminfo() {
-    : install kitty terminfo so screen and vim work correctly
+    : install kitty terminfo so tmux and vim work correctly
     install_package kitty-terminfo
 }
 
