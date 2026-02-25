@@ -111,3 +111,7 @@ vim.opt.tags = "./tags,tags,../tags,../../tags";
 
 -- Save undo information between sessions
 vim.opt.undofile = true
+
+-- Make colors look better by using 24-bit palette
+vim.opt.termguicolors = true
+
