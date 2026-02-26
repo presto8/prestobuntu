@@ -255,7 +255,7 @@ EOF
 
     # zpreztorc
     rm -f "$ZDOTDIR/.zpreztorc"
-    get_prestobuntu_file "zprestorc" "$ZDOTDIR/.zpreztorc"
+    get_prestobuntu_file "zpreztorc" "$ZDOTDIR/.zpreztorc"
 }
 
 setup_tmux() (
