@@ -56,6 +56,7 @@ main() {
         setup_git
         setup_zsh_with_prezto
         setup_ssh
+        setup_tmux
         setup_nvim
         install_development_packages
         install_wireless_build_packages
