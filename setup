@@ -263,7 +263,11 @@ setup_tmux() (
     install_package tmux tmuxinator
     install_package ansifilter  # tmux-logging uses this to clean up logs
 
-    local plugdir="$XDG_CONFIG_HOME/tmux/plugins"
+    local tmuxdir="$XDG_CONFIG_HOME/tmux"
+    mkdir -p "$tmuxdir"
+    get_prestobuntu_file "tmux.conf" "$tmuxdir/tmux.conf"
+
+    local plugdir="$tmuxdir/plugins"
     mkdir -p "$plugdir"
     cd "$plugdir"
     git clone https://github.com/tmux-plugins/tpm
