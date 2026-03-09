@@ -32,6 +32,11 @@ require("lazy").setup({
   "tpope/vim-unimpaired",
   "ervandew/supertab",
   "w0rp/ale",
+  { "ellisonleao/gruvbox.nvim",
+    config = function()
+      vim.cmd.colorscheme("gruvbox")
+    end,
+  },
   "vim-airline/vim-airline",
   "farmergreg/vim-lastplace",
   "jremmen/vim-ripgrep",
