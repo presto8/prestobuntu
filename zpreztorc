@@ -40,7 +40,7 @@ zstyle ':prezto:load' pmodule \
   'completion' \
   'history-substring-search' \
   'prompt' \
-  'tmux'
+  'tmux-new-session'
 
 
 #
@@ -231,22 +231,6 @@ zstyle ':prezto:module:prompt' theme 'powerlevel10k'
 
 # Set the terminal multiplexer title format.
 # zstyle ':prezto:module:terminal:multiplexer-title' format '%s'
-
-#
-# Tmux
-#
-
-# Auto start a session when Zsh is launched in a local terminal.
-zstyle ':prezto:module:tmux:auto-start' local 'yes'
-
-# Auto start a session when Zsh is launched in a SSH connection.
-zstyle ':prezto:module:tmux:auto-start' remote 'yes'
-
-# Integrate with iTerm2.
-# zstyle ':prezto:module:tmux:iterm' integrate 'yes'
-
-# Set the default session name:
-zstyle ':prezto:module:tmux:session' name 'brix23'
 
 #
 # Utility

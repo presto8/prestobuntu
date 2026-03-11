@@ -254,6 +254,11 @@ EOF
     get_prestobuntu_file "p10k.zsh" "$ZDOTDIR/p10k.zsh"
     _require_line "source $ZDOTDIR/p10k.zsh" "$ZDOTDIR/.zshrc"
 
+    # tmux-new-session
+    local contrib="$ZDOTDIR/.zprezto/contrib/tmux-new-session"
+    mkdir -p "$contrib"
+    get_prestobuntu_file "tmux-new-session.plugin.zsh" "$contrib/tmux-new-session.plugin.zsh"
+
     # zpreztorc
     rm -f "$ZDOTDIR/.zpreztorc"
     get_prestobuntu_file "zpreztorc" "$ZDOTDIR/.zpreztorc"
