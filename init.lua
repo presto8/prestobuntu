@@ -20,7 +20,7 @@ require("lazy").setup({
         -- Always use vertical split for Vim Fugitive :Gdiff
         vim.opt.diffopt:append("vertical")
         vim.keymap.set('c', 'Gc', 'Git commit')
-        vim.keymap.set('c', 'Gd', 'Gdiffsplit', { noremap = true })
+        vim.keymap.set('c', 'Gd', 'Gvdiffsplit<bar>wincmd l<cr>')
       end,
   },
   { "tpope/vim-commentary",
