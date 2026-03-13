@@ -19,7 +19,7 @@ require("lazy").setup({
       config = function()
         -- Always use vertical split for Vim Fugitive :Gdiff
         vim.opt.diffopt:append("vertical")
-        vim.keymap.set('c', 'Gc', 'Git commit', { noremap = true })
+        vim.keymap.set('c', 'Gc', 'Git commit')
         vim.keymap.set('c', 'Gd', 'Gdiffsplit', { noremap = true })
       end,
   },
@@ -88,10 +88,10 @@ vim.opt.smartcase = true;
 vim.opt.hlsearch = true;
 
 -- allow ; in addition to :
-vim.keymap.set('n', ';', ':', { noremap = true })
+vim.keymap.set('n', ';', ':')
 
 -- press j then k quickly for Escape
-vim.keymap.set('i', 'jk', '<Esc>', { noremap = true, silent = true })
+vim.keymap.set('i', 'jk', '<Esc>', { silent = true })
 
 -- alloq qa1 in command mode
 vim.cmd("ca qa1 qa!")
