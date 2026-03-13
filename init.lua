@@ -88,7 +88,10 @@ vim.opt.smartcase = true;
 vim.opt.hlsearch = true;
 
 -- allow ; in addition to :
-vim.keymap.set('n', ';', ':', { remap = true })
+vim.keymap.set('n', ';', ':', { noremap = true })
+
+-- press j then k quickly for Escape
+vim.keymap.set('i', 'jk', '<Esc>', { noremap = true, silent = true })
 
 -- alloq qa1 in command mode
 vim.cmd("ca qa1 qa!")
