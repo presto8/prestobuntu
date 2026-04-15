@@ -55,6 +55,7 @@ require("lazy").setup({
         {"JJ", "<cmd>FZFMru<cr>", desc = "Most recent files pop-up" },
       },
   },
+  "github/copilot.vim",
   -- {
     -- 'nvim-telescope/telescope.nvim', version = '*',
     -- dependencies = {

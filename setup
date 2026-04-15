@@ -333,6 +333,7 @@ setup_nvim() {
     fi
     local nvimdir="$HOME/.config/nvim"
     install_package neovim
+    install_package nodejs npm  # for copilot
     mkdir -p "$nvimdir"
     get_prestobuntu_file "init.lua" "$nvimdir/init.lua"
     install_package fzf
