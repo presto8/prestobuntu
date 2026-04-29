@@ -294,7 +294,7 @@ install_development_packages() {
     install_package python3-pip
     install_package curl
     install_package cmake ninja-build
-    install_package corkscrew
+    install_package corkscrew  # for tunnelling ssh over https proxies
     install_ccache
     hash -r
 }
