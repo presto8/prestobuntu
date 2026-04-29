@@ -200,6 +200,12 @@ setup_ssh() {
     if ! test -f ~/.ssh/id_rsa; then
         ssh-keygen -N "" -f "$_"
     fi
+
+    # ssh-agent user systemd service
+    mkdir -p "$XDG_CONFIG_HOME/systemd/user"
+    get_prestobuntu_file "ssh-agent.service" "$XDG_CONFIG_HOME/systemd/user/ssh-agent.service"
+    systemctl --user daemon-reload
+    systemctl --user enable --now ssh-agent.service
 }
 
 setup_git() {
