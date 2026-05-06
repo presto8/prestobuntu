@@ -214,7 +214,8 @@ setup_git() {
 }
 
 get_internet_file() {
-    wget "$1" --output-document "$2"
+    # Use -4 to force IPv4 since IPv6 is broken on some systems
+    curl -4 "$1" --output "$2"
 }
 
 get_prestobuntu_file() {
