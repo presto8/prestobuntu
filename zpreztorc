@@ -40,7 +40,8 @@ zstyle ':prezto:load' pmodule \
   'completion' \
   'history-substring-search' \
   'prompt' \
-  'tmux-new-session'
+  'tmux-new-session' \
+  'fzf-tab'
 
 
 #

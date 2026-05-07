@@ -266,6 +266,9 @@ EOF
     mkdir -p "$contrib"
     get_prestobuntu_file "tmux-new-session.plugin.zsh" "$contrib/tmux-new-session.plugin.zsh"
 
+    # fzf-tab
+    git clone https://github.com/Aloxaf/fzf-tab "$ZPREZTODIR/contrib/fzf-tab"
+
     # zpreztorc
     rm -f "$ZDOTDIR/.zpreztorc"
     get_prestobuntu_file "zpreztorc" "$ZDOTDIR/.zpreztorc"
