@@ -35,9 +35,9 @@ running any arbitrary shell script from the Internet).
 
 ### Installation from local file
 
-    sudo bash setup
+    bash setup
 
 ### Installation from Internet
 
     wget https://raw.githubusercontent.com/presto8/prestobuntu/master/setup
-    sudo bash setup
+    bash setup
