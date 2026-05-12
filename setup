@@ -71,6 +71,7 @@ main() {
         setup_dialout_group
         install_pscripts
         enable_sudo_without_password
+        create_gruvbox_terminal_profile
     fi
 
     info "prestobuntu setup complete!"
@@ -490,6 +491,11 @@ auto_start_terminal() {
     local file="startup-terminal.desktop"
     mkdir -p "$autostart"
     get_prestobuntu_file "$file" "$autostart/$file"
+}
+
+create_gruvbox_terminal_profile() {
+    get_prestobuntu_file "create-gruvbox" /tmp/create-gruvbox
+    bash /tmp/create-gruvbox
 }
 
 _systemctl() { sudo systemctl "$@" ; }

@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROFILE_NAME="Gruvbox"
+
+command -v gsettings >/dev/null || { echo "gsettings is required"; exit 1; }
+command -v uuidgen >/dev/null || { echo "uuidgen is required"; exit 1; }
+
+new_uuid="$(uuidgen)"
+
+current_list="$(gsettings get org.gnome.Terminal.ProfilesList list)"
+if [[ "$current_list" == "@"* ]]; then
+  current_list="[]"
+fi
+
+new_list="${current_list%]}"
+if [[ "$new_list" == "[]" ]]; then
+  new_list="['${new_uuid}']"
+else
+  new_list="${new_list}, '${new_uuid}']"
+fi
+
+gsettings set org.gnome.Terminal.ProfilesList list "$new_list"
+gsettings set org.gnome.Terminal.ProfilesList default "$new_uuid"
+
+base_path="org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${new_uuid}/"
+
+gsettings set "$base_path" visible-name "$PROFILE_NAME"
+gsettings set "$base_path" use-theme-colors false
+gsettings set "$base_path" use-system-font false
+gsettings set "$base_path" font 'Monospace 11'
+gsettings set "$base_path" audible-bell false
+gsettings set "$base_path" scrollback-unlimited true
+gsettings set "$base_path" use-transparent-background false
+
+gsettings set "$base_path" foreground-color '#ebdbb2'
+gsettings set "$base_path" background-color '#282828'
+gsettings set "$base_path" bold-color '#fbf1c7'
+gsettings set "$base_path" cursor-background-color '#ebdbb2'
+gsettings set "$base_path" cursor-foreground-color '#282828'
+
+gsettings set "$base_path" palette "['#282828', '#cc241d', '#98971a', '#d79921', '#458588', '#b16286', '#689d6a', '#a89984', '#928374', '#fb4934', '#b8bb26', '#fabd2f', '#83a598', '#d3869b', '#8ec07c', '#ebdbb2']"
+
+echo "Created GNOME Terminal profile '$PROFILE_NAME' and set it as default."
