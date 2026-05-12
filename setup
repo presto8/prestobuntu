@@ -442,7 +442,7 @@ cleanup_user_home() {
 }
 
 configure_gnome_settings() {
-    if ! which gettings &>/dev/null; then
+    if ! which gsettings &>/dev/null; then
         info "configure_gnome_settings: skipping since gsettings is not available"
         return
     fi
