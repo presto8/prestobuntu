@@ -27,6 +27,8 @@ changes once.
     copilot.vim
 - Shell
   - zsh with prezto
+- User interface
+  - Create Gruvbox dark profile for gnome-terminal and neovim
 
 ## Installation
 
