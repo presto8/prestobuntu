@@ -20,10 +20,11 @@ changes once.
 - Filesystem
   - Remove empty directories from /home/user
 - Install packages
-  - tmux, git, exuberant-ctags, fd
+  - tmux, git, exuberant-ctags, fd, nodejs
 - Neovim
   - Plugins: vim-sensible, vim-fugitive, vim-commentary, vim-unimpaired,
-    supertab, ale, lightline, fzf, vim-gitgutter, vim-foldsearch, vim-ripgrep
+    supertab, ale, lightline, fzf, vim-gitgutter, vim-foldsearch, vim-ripgrep,
+    copilot.vim
 - Shell
   - zsh with prezto
 
