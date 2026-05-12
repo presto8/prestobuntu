@@ -36,9 +36,11 @@ running any arbitrary shell script from the Internet).
 
 ### Installation from local file
 
+    nano setup  # inspect and verify the script
     bash setup
 
 ### Installation from Internet
 
     wget https://raw.githubusercontent.com/presto8/prestobuntu/master/setup
+    nano setup  # inspect and verify the script
     bash setup
