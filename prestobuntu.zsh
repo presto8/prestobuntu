@@ -62,6 +62,7 @@ alias j='journalctl --no-hostname --follow'
 alias jk='journalctl -k --no-hostname --follow'
 alias setproj='echo $PWD | tee $HOME/.cache/current_project'
 alias gp='cd $(cat $HOME/.cache/current_project)'
+alias gpp='gp && git pull && git push'
 
 sc() {
     if [[ $* == *--user* ]]; then
