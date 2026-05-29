@@ -343,6 +343,7 @@ setup_nvim() {
         sudo -E apt update
     fi
     local nvimdir="$HOME/.config/nvim"
+    remove_package vim
     install_package neovim
     install_package nodejs npm  # for copilot
     mkdir -p "$nvimdir"
