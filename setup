@@ -465,9 +465,14 @@ configure_gnome_settings() {
     $gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll true
     $gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action 'nothing'
     $gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action 'nothing'
+
     # disable tiling popup & tiling groups
     $gsettings set org.gnome.shell.extensions.tiling-assistant enable-tiling-popup false
     $gsettings set org.gnome.shell.extensions.tiling-assistant disable-tile-groups true
+
+    # configure keyboard shortcuts
+    $gsettings set org.gnome.desktop.wm.keybindings maximize '["<Super>f"]'
+    $gsettings set org.gnome.desktop.wm.keybindings close '["<Super>q"]'
 
     if (( UBUNTU_VERSION >= 20 )); then
         : disable ubuntu/gnome welcome wizard
