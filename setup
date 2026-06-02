@@ -64,6 +64,7 @@ main() {
         install_fd
         install_rofi_greenclip
         install_kitty_terminfo
+        install_kitty
         cleanup_user_home
         configure_gnome_settings
         disable_suspend_on_lid_closed
@@ -334,6 +335,11 @@ install_rofi_greenclip() {
 install_kitty_terminfo() {
     : install kitty terminfo so tmux and vim work correctly
     install_package kitty-terminfo
+}
+
+install_kitty() {
+    install_package kitty
+    get_prestobuntu_file "kitty.conf" "$XDG_CONFIG_HOME/kitty/kitty.conf"
 }
 
 setup_nvim() {
