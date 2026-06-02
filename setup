@@ -349,7 +349,10 @@ setup_nvim() {
     mkdir -p "$nvimdir"
     get_prestobuntu_file "init.lua" "$nvimdir/init.lua"
     install_package fzf
-
+    # lazy
+    local nvimdata="$HOME/.local/share/nvim"
+    mkdir -p "$nvimdata"/lazy
+    git clone --filter=blob:none https://github.com/folke/lazy.nvim.git --branch=stable
 }
 
 setup_static_ip_address() {
