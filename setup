@@ -65,6 +65,7 @@ main() {
         install_rofi_greenclip
         install_kitty_terminfo
         install_kitty
+        install_syncthing
         cleanup_user_home
         configure_gnome_settings
         disable_suspend_on_lid_closed
@@ -340,6 +341,10 @@ install_kitty_terminfo() {
 install_kitty() {
     install_package kitty
     get_prestobuntu_file "kitty.conf" "$XDG_CONFIG_HOME/kitty/kitty.conf"
+}
+
+install_syncthing() {
+    install_package syncthing
 }
 
 setup_nvim() {
