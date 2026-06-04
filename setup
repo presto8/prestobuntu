@@ -67,6 +67,7 @@ main() {
         install_kitty
         install_syncthing
         install_tinyproxy
+        install_encrypted_home_packages
         cleanup_user_home
         configure_gnome_settings
         disable_suspend_on_lid_closed
@@ -354,6 +355,11 @@ install_syncthing() {
 install_tinyproxy() {
     install_package tinyproxy
     # Enable by editing /etc/tinyproxy/tinyproxy.conf and setting "Allow ..." as appropriate
+}
+
+install_encrypted_home_packages() {
+    install_package ecryptfs-utils
+    # To encrypt home directory, log out and run "ecryptfs-migrate-home -u $USER"
 }
 
 setup_nvim() {
