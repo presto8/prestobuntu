@@ -66,6 +66,7 @@ main() {
         install_kitty_terminfo
         install_kitty
         install_syncthing
+        install_tinyproxy
         cleanup_user_home
         configure_gnome_settings
         disable_suspend_on_lid_closed
@@ -302,6 +303,8 @@ install_development_packages() {
     install_package curl
     install_package cmake ninja-build
     install_package corkscrew  # for tunnelling ssh over https proxies
+    # Enable corkscrew by adding the following to ~/.ssh/config:
+    # ProxyCommand corkscrew <proxy_host> <proxy_port> %h %p
     install_ccache
     hash -r
 }
@@ -345,6 +348,12 @@ install_kitty() {
 
 install_syncthing() {
     install_package syncthing
+    # Enable with: sudo systemctl --enable now syncthing@$USER
+}
+
+install_tinyproxy() {
+    install_package tinyproxy
+    # Enable by editing /etc/tinyproxy/tinyproxy.conf and setting "Allow ..." as appropriate
 }
 
 setup_nvim() {
