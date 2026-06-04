@@ -351,7 +351,7 @@ install_kitty() {
 
 install_syncthing() {
     install_package syncthing
-    # Enable with: sudo systemctl --enable now syncthing@$USER
+    # Enable with: sudo systemctl enable --now syncthing@$USER
 }
 
 install_tinyproxy() {
