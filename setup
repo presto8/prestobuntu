@@ -224,7 +224,7 @@ get_internet_file() {
 }
 
 get_prestobuntu_file() {
-    base="https://raw.githubusercontent.com/presto8/prestobuntu/master"
+    base="https://raw.githubusercontent.com/presto8/prestobuntu/main"
     get_internet_file "$base/$1" "$2"
 }
 
