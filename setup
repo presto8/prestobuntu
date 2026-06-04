@@ -344,7 +344,9 @@ install_kitty_terminfo() {
 
 install_kitty() {
     install_package kitty
-    get_prestobuntu_file "kitty.conf" "$XDG_CONFIG_HOME/kitty/kitty.conf"
+    local kittyhome="$XDG_CONFIG_HOME/kitty"
+    mkdir -p "$kittyhome"
+    get_prestobuntu_file "kitty.conf" "$kittyhome/kitty.conf"
 }
 
 install_syncthing() {
