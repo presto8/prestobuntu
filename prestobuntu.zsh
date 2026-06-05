@@ -53,6 +53,15 @@ REPORTTIME=10
 # may need the following if delete key doesn't work
 bindkey "\e[3~" delete-char
 
+# Load /etc/environment.d variables
+if [ -d /etc/environment.d ]; then
+  for file in /etc/environment.d/*.conf; do
+    if [ -f "$file" ]; then
+      export $(grep -v '^#' "$file" | xargs)
+    fi
+  done
+fi
+
 # Aliases
 alias ls='ls --color'
 alias l='ls -l'
