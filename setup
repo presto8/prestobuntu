@@ -509,11 +509,9 @@ disable_sleep() {
 }
 
 create_stub_proxyfile() {
-    local file="/etc/profile.d/proxy.sh"
-    if [[ ! -f "$file" ]]; then
-        echo '#http_proxy=http://192.168.250.10:8888' > "$file"
-        echo '#https_proxy=$http_proxy' >> "$file"
-    fi
+    local file="/etc/environment"
+    _require_line '#http_proxy=http://192.168.250.10:8888' "$file"
+    _require_line '#https_proxy=$http_proxy' "$file"
 }
 
 install_tailscale() {
