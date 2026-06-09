@@ -511,11 +511,11 @@ disable_sleep() {
 create_stub_proxyfile() {
     local file="/etc/environment"
     if ! grep -q http_proxy $file; then
-        echo '#http_proxy=http://192.168.250.10:8888' >>$file
+        echo '#http_proxy=http://192.168.250.10:8888' | sudo tee -a "$file"
     fi
 
     if ! grep -q https_proxy $file; then
-        echo '#https_proxy=$http_proxy' >>"$file"
+        echo '#https_proxy=$http_proxy' | sudo tee -a "$file"
     fi
 }
 
