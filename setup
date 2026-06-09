@@ -49,7 +49,7 @@ main() {
         disable_graphical_grub
         cloudflare_dns
         disable_sleep
-        create_stub_proxyfile
+        create_environment_proxy_entries
         install_tailscale
     fi
 
@@ -508,7 +508,7 @@ disable_sleep() {
     _systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 }
 
-create_stub_proxyfile() {
+create_environment_proxy_entries() {
     local file="/etc/environment"
     if ! grep -q http_proxy $file; then
         echo '#http_proxy=http://192.168.250.10:8888' | sudo tee -a "$file"
