@@ -49,6 +49,7 @@ main() {
         disable_graphical_grub
         cloudflare_dns
         disable_sleep
+        create_stub_proxyfile
         install_tailscale
     fi
 
@@ -505,6 +506,14 @@ configure_gnome_settings() {
 
 disable_sleep() {
     _systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+}
+
+create_stub_proxyfile() {
+    local file="/etc/profile.d/proxy.sh"
+    if [[ ! -f "$file" ]]; then
+        echo '#http_proxy=http://192.168.250.10:8888' > "$file"
+        echo '#https_proxy=$http_proxy' >> "$file"
+    fi
 }
 
 install_tailscale() {
