@@ -15,6 +15,7 @@ require("lazy").setup({
   "folke/which-key.nvim",
   "folke/neodev.nvim",
   "tpope/vim-sensible",
+  "tpope/vim-sleuth",
   { "tpope/vim-fugitive",
       config = function()
         -- Always use vertical split for Vim Fugitive :Gdiff
