@@ -1,5 +1,5 @@
 export PATH="$HOME/.local/bin:$PATH"
-export VISUAL=vim
+export VISUAL=nvim
 export EDITOR=$VISUAL
 export LS_COLORS="ln=4:di=1;36"  # underline links, dirs bright blue
 export TERM=xterm-256color
@@ -13,7 +13,7 @@ test -f ~/.liquidprompt && source "$_"
 
 if which fasd &>/dev/null; then
     eval "$(fasd --init auto)"
-    alias v='f -e vim'
+    alias v='f -e nvim'
 fi
 
 # Tab Completions
