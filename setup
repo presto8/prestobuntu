@@ -18,12 +18,49 @@ user_config() {
     # Set a static IP address for an Interface
     # STATIC_IFACE="eno1"
     # STATIC_ADDRESS="192.168.250.302/24"
+
+    # Steps to skip, given as a space-separated list of the step names
+    # used in main() below. Prefer setting this in config.local so that
+    # per-machine choices do not conflict when this file is updated.
+    # SKIP="setup_ssh install_tinyproxy configure_gnome_settings"
+    SKIP=""
+}
+
+load_local_config() {
+    : "source per-machine overrides, if any"
+    # Machine-specific settings belong outside version control: editing
+    # user_config directly makes every 'git pull' conflict.
+    local conf
+    for conf in "${PRESTOBUNTU_CONFIG:-}" ./config.local \
+                "$XDG_CONFIG_HOME/prestobuntu/config.local"; do
+        if [[ -n $conf && -f $conf ]]; then
+            info "loading local config from $conf"
+            # shellcheck source=/dev/null
+            source "$conf"
+            return
+        fi
+    done
+}
+
+run() {
+    : "run an install step unless its name appears in \$SKIP"
+    local step
+    # unquoted on purpose: splits on any whitespace, so SKIP may be
+    # written across several lines
+    for step in ${SKIP:-}; do
+        if [[ $step == "$1" ]]; then
+            info "skipping $1"
+            return
+        fi
+    done
+    "$@"
 }
 
 XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
 
 main() {
     user_config
+    load_local_config
 
     if [[ ! -v INSTALL_MODE || -z $INSTALL_MODE ]]; then
         die "must customize user_config before running; hint: ${EDITOR:-nano} $0"
@@ -34,49 +71,49 @@ main() {
 
     if [[ $INSTALL_MODE == *system* ]]; then
         info "configuring system settings"
-        change_hostname
-        remove_package thunderbird
-        remove_package rhythmbox
-        setup_static_ip_address
-        make_journald_persistent
-        allow_user_to_view_journalctl
-        remove_update_messages_from_motd
-        remove_sudo_warning
-        pass_http_thru_sudo
-        disable_automatic_updates
-        disable_unwanted_services
-        disable_login_messages
-        disable_graphical_grub
-        cloudflare_dns
-        disable_sleep
-        create_environment_proxy_entries
-        install_tailscale
+        run change_hostname
+        run remove_package thunderbird
+        run remove_package rhythmbox
+        run setup_static_ip_address
+        run make_journald_persistent
+        run allow_user_to_view_journalctl
+        run remove_update_messages_from_motd
+        run remove_sudo_warning
+        run pass_http_thru_sudo
+        run disable_automatic_updates
+        run disable_unwanted_services
+        run disable_login_messages
+        run disable_graphical_grub
+        run cloudflare_dns
+        run disable_sleep
+        run create_environment_proxy_entries
+        run install_tailscale
     fi
 
     if [[ $INSTALL_MODE == *user* ]]; then
-        setup_git
-        setup_zsh_with_prezto
-        setup_ssh
-        setup_tmux
-        setup_nvim
-        install_development_packages
-        install_wireless_build_packages
-        install_ripgrep
-        install_fd
-        install_rofi_greenclip
-        install_kitty_terminfo
-        install_kitty
-        install_syncthing
-        install_tinyproxy
-        install_encrypted_home_packages
-        cleanup_user_home
-        configure_gnome_settings
-        disable_suspend_on_lid_closed
-        remap_capslock_to_control
-        setup_dialout_group
-        install_pscripts
-        enable_sudo_without_password
-        create_gruvbox_terminal_profile
+        run setup_git
+        run setup_zsh_with_prezto
+        run setup_ssh
+        run setup_tmux
+        run setup_nvim
+        run install_development_packages
+        run install_wireless_build_packages
+        run install_ripgrep
+        run install_fd
+        run install_rofi_greenclip
+        run install_kitty_terminfo
+        run install_kitty
+        run install_syncthing
+        run install_tinyproxy
+        run install_encrypted_home_packages
+        run cleanup_user_home
+        run configure_gnome_settings
+        run disable_suspend_on_lid_closed
+        run remap_capslock_to_control
+        run setup_dialout_group
+        run install_pscripts
+        run enable_sudo_without_password
+        run create_gruvbox_terminal_profile
     fi
 
     info "prestobuntu setup complete!"
