@@ -314,11 +314,12 @@ install_development_packages() {
 install_ccache() {
     install_package ccache
     local dest="$HOME/.local/bin"
+    local ccache i
+    ccache=$(command -v ccache)
     mkdir -p "$dest"
+    # no sudo: these live in the user's own home directory
     for i in gcc g++ cc c++; do
-        local targ="$dest/$i"
-        sudo rm -f "$targ"
-        sudo ln -s "$(which ccache)" "$targ"
+        ln -sf "$ccache" "$dest/$i"
     done
 }
 
