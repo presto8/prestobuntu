@@ -137,11 +137,30 @@ change_hostname() {
 }
 
 kill_apt_inhibitors() {
-    unwanted='apt|aptd|unattended-upgrade'
-    while pgrep -f "$unwanted"; do
-        sudo pkill -f "$unwanted" ||:
+    : "stop background apt jobs that hold the dpkg lock"
+
+    # Ask systemd first -- these units are what schedule the offenders,
+    # so stopping them is both gentler and more reliable than SIGTERM.
+    _systemctl stop unattended-upgrades.service apt-daily.service \
+        apt-daily-upgrade.service packagekit.service &>/dev/null ||:
+
+    # Anchor the pattern at the start of the command line. The previous
+    # 'apt|aptd|unattended-upgrade' was an unanchored substring match
+    # against the full cmdline, so it matched any process whose
+    # arguments merely contained "apt" -- including the sudo and pkill
+    # processes this function itself spawns, since the pattern is one of
+    # their arguments.
+    local unwanted='^(/usr/s?bin/)?(apt|apt-get|aptd|unattended-upgrade)([[:space:]]|$)'
+    local tries
+
+    # Bounded: never spin forever on a process we are unable to kill.
+    for (( tries = 0; tries < 20; tries++ )); do
+        pgrep -f "$unwanted" &>/dev/null || return 0
+        sudo pkill -f "$unwanted" &>/dev/null ||:
         sleep 0.5
     done
+
+    info "warning: apt still running after 10s; continuing anyway"
 }
 
 make_journald_persistent() {
