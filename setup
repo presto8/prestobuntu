@@ -224,6 +224,20 @@ get_internet_file() {
     wget -4 "$1" -O "$2"
 }
 
+clone_or_pull() {
+    : "clone_or_pull <url> <dest> [extra git-clone args...]"
+    local url=$1 dest=$2
+    shift 2
+    if [[ -d "$dest/.git" ]]; then
+        info "updating $(basename "$dest")"
+        # don't abort the run if the checkout is dirty or has no upstream
+        git -C "$dest" pull --ff-only ||:
+    else
+        info "cloning $(basename "$dest")"
+        git clone "$@" "$url" "$dest"
+    fi
+}
+
 get_prestobuntu_file() {
     base="https://raw.githubusercontent.com/presto8/prestobuntu/main"
     get_internet_file "$base/$1" "$2"
@@ -248,15 +262,15 @@ export ZDOTDIR="$ZDOTDIR"
 source "$ZDOTDIR/.zshenv"
 EOF
 
-    git clone --recursive https://github.com/sorin-ionescu/prezto.git "$ZPREZTODIR"
+    clone_or_pull https://github.com/sorin-ionescu/prezto.git "$ZPREZTODIR" --recursive
 
     mapfile -d $'\0' rcfiles < <(find "$ZPREZTODIR/runcoms" -name 'z*' -type f -print0)
     for rcfile in "${rcfiles[@]}"; do
-        ln -s "$rcfile" "$ZDOTDIR/.$(basename "$rcfile")"
+        ln -sf "$rcfile" "$ZDOTDIR/.$(basename "$rcfile")"
     done
 
     # zsh-autosuggestions
-    git clone https://github.com/zsh-users/zsh-autosuggestions "$ZDOTDIR"/zsh-autosuggestions
+    clone_or_pull https://github.com/zsh-users/zsh-autosuggestions "$ZDOTDIR/zsh-autosuggestions"
     _require_line "source $ZDOTDIR/zsh-autosuggestions/zsh-autosuggestions.zsh" "$ZDOTDIR/.zshrc"
 
     # prestobuntu.zsh
@@ -273,14 +287,14 @@ EOF
     get_prestobuntu_file "tmux-new-session.plugin.zsh" "$contrib/tmux-new-session.plugin.zsh"
 
     # fzf-tab
-    git clone https://github.com/Aloxaf/fzf-tab "$ZPREZTODIR/contrib/fzf-tab"
+    clone_or_pull https://github.com/Aloxaf/fzf-tab "$ZPREZTODIR/contrib/fzf-tab"
 
     # zpreztorc
     rm -f "$ZDOTDIR/.zpreztorc"
     get_prestobuntu_file "zpreztorc" "$ZDOTDIR/.zpreztorc"
 }
 
-setup_tmux() (
+setup_tmux() {
     install_package tmux tmuxinator
     install_package ansifilter  # tmux-logging uses this to clean up logs
 
@@ -290,13 +304,12 @@ setup_tmux() (
 
     local plugdir="$tmuxdir/plugins"
     mkdir -p "$plugdir"
-    cd "$plugdir"
-    git clone https://github.com/tmux-plugins/tpm
-    git clone https://github.com/tmux-plugins/tmux-sensible
-    git clone https://github.com/tmux-plugins/tmux-logging
-    git clone https://github.com/tmux-plugins/tmux-pain-control
-    git clone https://github.com/laktak/extrakto
-)
+    clone_or_pull https://github.com/tmux-plugins/tpm "$plugdir/tpm"
+    clone_or_pull https://github.com/tmux-plugins/tmux-sensible "$plugdir/tmux-sensible"
+    clone_or_pull https://github.com/tmux-plugins/tmux-logging "$plugdir/tmux-logging"
+    clone_or_pull https://github.com/tmux-plugins/tmux-pain-control "$plugdir/tmux-pain-control"
+    clone_or_pull https://github.com/laktak/extrakto "$plugdir/extrakto"
+}
 
 install_development_packages() {
     install_package exuberant-ctags
