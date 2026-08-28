@@ -1,0 +1,22 @@
+# Per-machine prestobuntu settings.
+#
+# Copy to "config.local" next to the setup script (or to
+# $XDG_CONFIG_HOME/prestobuntu/config.local) and edit. It is sourced by
+# setup after user_config, so anything set here wins.
+#
+# Keeping machine-specific choices here rather than editing the setup
+# script means "git pull" never conflicts with your customizations.
+# config.local is gitignored.
+
+INSTALL_MODE="user-only"
+
+# Space-separated list of steps to skip; names are the function names
+# listed in main().
+SKIP="setup_ssh install_rofi_greenclip install_tinyproxy
+      configure_gnome_settings disable_suspend_on_lid_closed
+      remap_capslock_to_control"
+
+# CHANGE_HOSTNAME_TO="my-laptop"
+# SSH_REMOTE_ACCESS_PUBKEY="ssh-ed25519 AAAA... user@host"
+# STATIC_IFACE="eno1"
+# STATIC_ADDRESS="192.168.250.30/24"
