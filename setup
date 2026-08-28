@@ -236,8 +236,8 @@ setup_zsh_with_prezto() {
     local ZDOTDIR=$XDG_CONFIG_HOME/zsh
     local ZPREZTODIR=$ZDOTDIR/.zprezto
 
-    # prezto
-    if [[ -d "$HOME/.zshenv" || -d "$ZPREZTODIR" ]]; then
+    # prezto; bail out rather than clobber an existing zsh setup
+    if [[ -f "$HOME/.zshenv" || -d "$ZPREZTODIR" ]]; then
         return
     fi
 
