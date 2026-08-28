@@ -334,11 +334,13 @@ install_fd() {
 
 install_rofi_greenclip() {
     install_package rofi
-    local tmp
-    tmp=$(mktemp -d)
-    get_internet_file "https://github.com/erebe/greenclip/releases/download/v4.2/greenclip" "$tmp/greenclip"
-    sudo install "$tmp/greenclip" /usr/local/bin
-    rm -rf "$tmp"
+    (
+        local tmp
+        tmp=$(mktemp -d)
+        trap 'rm -rf -- "$tmp"' EXIT
+        get_internet_file "https://github.com/erebe/greenclip/releases/download/v4.2/greenclip" "$tmp/greenclip"
+        sudo install "$tmp/greenclip" /usr/local/bin
+    )
 }
 
 install_kitty_terminfo() {
