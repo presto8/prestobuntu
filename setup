@@ -334,8 +334,11 @@ install_fd() {
 
 install_rofi_greenclip() {
     install_package rofi
-    get_internet_file "https://github.com/erebe/greenclip/releases/download/v4.2/greenclip" /tmp/greenclip
-    sudo install /tmp/greenclip /usr/local/bin
+    local tmp
+    tmp=$(mktemp -d)
+    get_internet_file "https://github.com/erebe/greenclip/releases/download/v4.2/greenclip" "$tmp/greenclip"
+    sudo install "$tmp/greenclip" /usr/local/bin
+    rm -rf "$tmp"
 }
 
 install_kitty_terminfo() {
@@ -546,8 +549,11 @@ auto_start_terminal() {
 }
 
 create_gruvbox_terminal_profile() {
-    get_prestobuntu_file "create-gruvbox" /tmp/create-gruvbox
-    bash /tmp/create-gruvbox
+    local tmp
+    tmp=$(mktemp -d)
+    get_prestobuntu_file "create-gruvbox" "$tmp/create-gruvbox"
+    bash "$tmp/create-gruvbox"
+    rm -rf "$tmp"
 }
 
 _systemctl() { sudo systemctl "$@" ; }
