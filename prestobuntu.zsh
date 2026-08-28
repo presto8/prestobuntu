@@ -91,6 +91,14 @@ alias Ga='git add'
 # Fix ssh-agent for screen
 # https://gist.github.com/martijnvermaat/8070533#gistcomment-1317075
 if [[ -S "$SSH_AUTH_SOCK" && ! -h "$SSH_AUTH_SOCK" ]]; then
+        mkdir -p ~/.ssh
         ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
 fi
-export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+
+# Only adopt the stable symlink if it resolves to a live socket (-S
+# follows symlinks). Exporting it unconditionally points SSH_AUTH_SOCK
+# at a dangling path when no agent is running, which silently breaks
+# agent forwarding into this shell.
+if [[ -S ~/.ssh/ssh_auth_sock ]]; then
+        export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+fi
