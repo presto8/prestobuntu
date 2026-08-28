@@ -196,7 +196,8 @@ setup_ssh() {
     install_package openssh-server mosh
 
     if [[ -v SSH_REMOTE_ACCESS_PUBKEY ]]; then
-        mkdir -p "$HOME"/.ssh --mode 700
+        mkdir -p "$HOME"/.ssh
+        chmod 700 "$HOME"/.ssh
         touch "$HOME"/.ssh/authorized_keys
         _require_line "$SSH_REMOTE_ACCESS_PUBKEY" "$HOME"/.ssh/authorized_keys
         chmod 600 "$HOME"/.ssh/authorized_keys
@@ -216,7 +217,7 @@ setup_ssh() {
 
 setup_git() {
     install_package git git-lfs
-    get_prestobuntu_file gitconfig $HOME/.gitconfig
+    get_prestobuntu_file gitconfig "$HOME/.gitconfig"
 }
 
 get_internet_file() {
@@ -510,11 +511,14 @@ disable_sleep() {
 
 create_environment_proxy_entries() {
     local file="/etc/environment"
-    if ! grep -q http_proxy $file; then
+    if ! grep -q http_proxy "$file"; then
         echo '#http_proxy=http://192.168.250.10:8888' | sudo tee -a "$file"
     fi
 
-    if ! grep -q https_proxy $file; then
+    if ! grep -q https_proxy "$file"; then
+        # single quotes are deliberate: this writes a commented-out
+        # template line, so $http_proxy must land in the file literally
+        # shellcheck disable=SC2016
         echo '#https_proxy=$http_proxy' | sudo tee -a "$file"
     fi
 }
