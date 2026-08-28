@@ -2,7 +2,10 @@ export PATH="$HOME/.local/bin:$PATH"
 export VISUAL=vim
 export EDITOR=$VISUAL
 export LS_COLORS="ln=4:di=1;36"  # underline links, dirs bright blue
-export TERM=xterm-256color
+# NOTE: do not set TERM here. The terminal emulator (kitty sets
+# xterm-kitty) and tmux (tmux-256color) already set it correctly, and
+# overriding it from the shell rc loses true-colour and undercurl
+# detection. See install_kitty_terminfo in setup.
 
 setopt autocd
 
