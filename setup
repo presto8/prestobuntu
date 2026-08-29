@@ -216,7 +216,39 @@ setup_ssh() {
 
 setup_git() {
     install_package git git-lfs
-    get_prestobuntu_file gitconfig $HOME/.gitconfig
+
+    # ~/.gitconfig is overwritten wholesale below, so capture any
+    # identity already configured and put it back afterwards. Ignore the
+    # old placeholder, which earlier versions of this script installed.
+    local name email
+    name=$(git config --global --get user.name || true)
+    email=$(git config --global --get user.email || true)
+    if [[ $name == "Unknown User" ]]; then
+        name=""
+    fi
+    if [[ $email == "unknown@unknown.com" ]]; then
+        email=""
+    fi
+
+    get_prestobuntu_file gitconfig "$HOME/.gitconfig"
+
+    # An explicit setting wins over whatever was there before. These may
+    # be exported, or set in config.local once that mechanism lands.
+    name=${GIT_USER_NAME:-$name}
+    email=${GIT_USER_EMAIL:-$email}
+
+    if [[ -n $name ]]; then
+        git config --global user.name "$name"
+    fi
+    if [[ -n $email ]]; then
+        git config --global user.email "$email"
+    fi
+
+    if [[ -z $name || -z $email ]]; then
+        info "git identity not set; run:"
+        info "  git config --global user.name 'Your Name'"
+        info "  git config --global user.email 'you@example.com'"
+    fi
 }
 
 get_internet_file() {

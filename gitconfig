@@ -1,6 +1,8 @@
-[user]
-    email = unknown@unknown.com
-    name = Unknown User
+# NOTE: deliberately no [user] section. This file is copied over
+# ~/.gitconfig on every run, so hard-coding an identity here silently
+# replaces the real one on every machine it is installed to. setup_git
+# preserves whatever identity is already configured, or takes it from
+# GIT_USER_NAME / GIT_USER_EMAIL.
 
 [color]
     diff = auto
