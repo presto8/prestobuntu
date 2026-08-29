@@ -231,6 +231,22 @@ setup_git() {
     # Don't replace existing .gitconfig
     if [[ ! -f "$cfg" ]]; then
         get_prestobuntu_file gitconfig "$cfg"
+
+        # The repo gitconfig deliberately has no [user] section; take the
+        # identity from GIT_USER_NAME / GIT_USER_EMAIL if provided.
+        if [[ -n ${GIT_USER_NAME:-} ]]; then
+            git config --global user.name "$GIT_USER_NAME"
+        fi
+        if [[ -n ${GIT_USER_EMAIL:-} ]]; then
+            git config --global user.email "$GIT_USER_EMAIL"
+        fi
+    fi
+
+    if [[ -z $(git config --global --get user.name || true) ||
+          -z $(git config --global --get user.email || true) ]]; then
+        info "git identity not set; run:"
+        info "  git config --global user.name 'Your Name'"
+        info "  git config --global user.email 'you@example.com'"
     fi
 }
 

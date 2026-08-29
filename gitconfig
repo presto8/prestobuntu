@@ -1,6 +1,6 @@
-[user]
-    email = unknown@unknown.com
-    name = Unknown User
+# NOTE: deliberately no [user] section. setup_git installs this file only
+# when ~/.gitconfig does not exist yet, and sets the identity from
+# GIT_USER_NAME / GIT_USER_EMAIL rather than a placeholder.
 
 [color]
     diff = auto
