@@ -89,7 +89,7 @@ check_not_root() {
         die "must not run as root (tip: don't use sudo)"
     fi
 
-    if ! sudo -n true &>/dev/null; then
+    if ! mute sudo -n true; then
         info "root privileges are needed for installation"
         sudo true
     fi
@@ -432,7 +432,7 @@ _require_line() {
     # adds line if not present
     local line="$1" file="$2"
     if ! grep -qs --line-regexp --fixed-strings "$line" "$file"; then
-        echo "$line" | sudo tee -a "$file" >/dev/null
+        echo "$line" | mute sudo tee -a "$file"
     fi
 }
 
@@ -475,7 +475,7 @@ cleanup_user_home() {
 }
 
 configure_gnome_settings() {
-    if ! which gsettings &>/dev/null; then
+    if ! mute which gsettings; then
         info "configure_gnome_settings: skipping since gsettings is not available"
         return
     fi
@@ -524,7 +524,7 @@ install_tailscale() {
 
 disable_if_installed() {
     for unit in "$@"; do
-        if systemctl list-unit-files "$@" &>/dev/null; then
+        if mute systemctl list-unit-files "$@"; then
             sudo systemctl disable "$unit"
         fi
     done
