@@ -217,7 +217,11 @@ setup_ssh() {
 
 setup_git() {
     install_package git git-lfs
-    get_prestobuntu_file gitconfig $HOME/.gitconfig
+    local cfg="$HOME/.gitconfig"
+    # Don't replace existing .gitconfig
+    if [[ ! -f "$cfg" ]]; then
+        get_prestobuntu_file gitconfig "$cfg"
+    fi
 }
 
 get_internet_file() {
