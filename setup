@@ -16,7 +16,7 @@ user_config() {
     CHANGE_HOSTNAME_TO=""
 
     # Set the proxy below if you need one
-    # CHANGE_PROXY_TO="http://192.168.250
+    # CHANGE_PROXY_TO="http://192.168.250.10:8888"
 
     # Set a static IP address for an Interface
     # STATIC_IFACE="eno1"
@@ -521,8 +521,8 @@ create_environment_proxy_entries() {
 
     local file="/etc/environment"
     for var in http_proxy https_proxy HTTP_PROXY HTTPS_PROXY; do
-        if ! grep -q "$var" "$file"; then
-            echo "$var=$CHANGE_PROXY_TO" | tee -a "$file"
+        if ! grep -q "^$var=" "$file"; then
+            echo "$var=$CHANGE_PROXY_TO" | mute sudo tee -a "$file"
         fi
     done
 }
