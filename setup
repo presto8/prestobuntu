@@ -18,6 +18,10 @@ user_config() {
     # Set the proxy below if you need one
     # CHANGE_PROXY_TO="http://192.168.250.10:8888"
 
+    # Enable tinyproxy on specified port
+    # ENABLE_TINYPROXY_PORT=8888
+    # ENABLE_TINYPROXY_SUBNET=192.168.250.0/24
+
     # Set a static IP address for an Interface
     # STATIC_IFACE="eno1"
     # STATIC_ADDRESS="192.168.250.302/24"
@@ -364,6 +368,12 @@ install_syncthing() {
 install_tinyproxy() {
     install_package tinyproxy
     # Enable by editing /etc/tinyproxy/tinyproxy.conf and setting "Allow ..." as appropriate
+
+    if [[ -v ENABLE_TINYPROXY_PORT && -v ENABLE_TINYPROXY_SUBNET ]]; then
+        _require_line "Port $ENABLE_TINYPROXY_PORT" /etc/tinyproxy/tinyproxy.conf
+        _require_line "Allow $ENABLE_TINYPROXY_SUBNET" /etc/tinyproxy/tinyproxy.conf
+        sudo systemctl enable --now tinyproxy
+    fi
 }
 
 install_encrypted_home_packages() {
