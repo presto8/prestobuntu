@@ -20,7 +20,7 @@ user_config() {
 
     # Enable tinyproxy on specified port
     # ENABLE_TINYPROXY_PORT=8888
-    # ENABLE_TINYPROXY_SUBNET=192.168.250.0/24
+    # ENABLE_TINYPROXY_SUBNET=192.168.0.0/16
 
     # Set a static IP address for an Interface
     # STATIC_IFACE="eno1"
