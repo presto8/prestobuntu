@@ -72,8 +72,7 @@ main() {
         setup_nvim
         install_development_packages
         install_wireless_build_packages
-        install_ripgrep
-        install_fd
+        install_convenience_packages
         install_rofi_greenclip
         install_kitty_terminfo
         install_kitty
@@ -338,12 +337,10 @@ install_ccache() {
     done
 }
 
-install_ripgrep() {
+install_convenience_packages() {
     install_package ripgrep
-}
-
-install_fd() {
     install_package fd-find
+    install_package btop
 }
 
 install_rofi_greenclip() {
