@@ -13,7 +13,7 @@ user_config() {
     # SSH_REMOTE_ACCESS_PUBKEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID38541mtP7fDpTxoq7kfRlLdCKV0TrBLwht1vyut3+5 (none)"
 
     # Change the value below to change the hostname
-    CHANGE_HOSTNAME_TO=""
+    # CHANGE_HOSTNAME_TO="newname"
 
     # Set the proxy below if you need one
     # CHANGE_PROXY_TO="http://192.168.250.10:8888"
@@ -25,6 +25,10 @@ user_config() {
     # Set a static IP address for an Interface
     # STATIC_IFACE="eno1"
     # STATIC_ADDRESS="192.168.250.302/24"
+
+    # If this entire function is commented out, it is syntax error in bash; so
+    # at least one line must be uncommented. Use true as a dummy command.
+    true
 }
 
 XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
