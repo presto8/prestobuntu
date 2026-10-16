@@ -27,7 +27,10 @@
     stat = true
 
 [push]
-    default = tracking
+    default = simple
+
+[fetch]
+    prune = true
 
 [pull]
     rebase = true
