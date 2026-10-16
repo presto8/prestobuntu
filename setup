@@ -290,6 +290,27 @@ EOF
         sed -i "1i $attach_line" "$(readlink -f "$ZDOTDIR/.zshrc")"
     fi
 
+    # p10k instant prompt; must come after the tmux auto-attach line (see
+    # above) but before anything else that prints during startup
+    if ! grep -qsF 'p10k-instant-prompt-' "$ZDOTDIR/.zshrc"; then
+        local zshrc instant_prompt
+        zshrc=$(readlink -f "$ZDOTDIR/.zshrc")
+        instant_prompt=$(mktemp)
+        cat >"$instant_prompt" <<'EOF'
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of .zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+EOF
+        local n
+        n=$(grep -nxF "$attach_line" "$zshrc" | cut -d: -f1)
+        sed -i "${n}r $instant_prompt" "$zshrc"
+        rm -f "$instant_prompt"
+    fi
+
     # fzf-tab
     git clone https://github.com/Aloxaf/fzf-tab "$ZPREZTODIR/contrib/fzf-tab"
 
