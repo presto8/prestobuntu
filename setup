@@ -381,6 +381,19 @@ install_convenience_packages() {
     install_package ripgrep
     install_package fd-find
     install_package btop
+
+    # Debian and Ubuntu ship the binary as "fdfind" because "fd" is taken
+    # by an unrelated package; put the upstream name on PATH
+    local dest="$HOME/.local/bin"
+    local fdfind
+    if fdfind=$(command -v fdfind); then
+        mkdir -p "$dest"
+        if [[ -e "$dest/fd" && ! -L "$dest/fd" ]]; then
+            info "not overwriting existing $dest/fd (not a symlink)"
+        else
+            ln -sfn "$fdfind" "$dest/fd"
+        fi
+    fi
 }
 
 install_rofi_greenclip() {
