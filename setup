@@ -551,11 +551,13 @@ auto_start_terminal() {
 }
 
 create_gruvbox_terminal_profile() {
-    local tmp
-    tmp=$(mktemp -d)
-    get_prestobuntu_file "create-gruvbox" "$tmp/create-gruvbox"
-    bash "$tmp/create-gruvbox"
-    rm -rf "$tmp"
+    (
+        local tmp
+        tmp=$(mktemp -d)
+        trap 'rm -rf -- "$tmp"' EXIT
+        get_prestobuntu_file "create-gruvbox" "$tmp/create-gruvbox"
+        bash "$tmp/create-gruvbox"
+    )
 }
 
 _systemctl() { sudo systemctl "$@" ; }
