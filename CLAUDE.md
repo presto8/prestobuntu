@@ -25,7 +25,6 @@ Target: Ubuntu 22.04+ (`check_ubuntu_version` hard-fails below 22).
   - `tmux.conf` → `$XDG_CONFIG_HOME/tmux/tmux.conf` (prefix `C-a`, vi mode, tpm plugins)
   - `init.lua` → `~/.config/nvim/init.lua` (lazy.nvim plugin manager)
   - `ssh-agent.service` → user systemd unit for ssh-agent
-  - `startup-terminal.desktop` → GNOME autostart (deployed by `auto_start_terminal`, currently not called from `main`)
 
 ## How `setup` is structured
 
@@ -33,8 +32,7 @@ Target: Ubuntu 22.04+ (`check_ubuntu_version` hard-fails below 22).
   (`user`, `system`, or `user,system`). The script refuses to run until the user
   edits `user_config()` to set `INSTALL_MODE`.
 - `main()` is the source of truth for what actually runs. Functions defined in
-  the file but not called from `main` (e.g. `auto_start_terminal`,
-  `disable_if_installed`) are dormant.
+  the file but not called from `main` are dormant.
 - Two dispatch blocks: `*system*` (root-level config: grub, DNS, services,
   journald, tailscale) and `*user*` (dotfiles, packages, zsh/tmux/nvim, per-user
   settings).
