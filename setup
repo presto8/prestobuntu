@@ -388,7 +388,11 @@ install_convenience_packages() {
     local fdfind
     if fdfind=$(command -v fdfind); then
         mkdir -p "$dest"
-        ln -sf "$fdfind" "$dest/fd"
+        if [[ -e "$dest/fd" && ! -L "$dest/fd" ]]; then
+            info "not overwriting existing $dest/fd (not a symlink)"
+        else
+            ln -sfn "$fdfind" "$dest/fd"
+        fi
     fi
 }
 
