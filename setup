@@ -282,10 +282,13 @@ EOF
     get_prestobuntu_file "p10k.zsh" "$ZDOTDIR/p10k.zsh"
     _require_line "source $ZDOTDIR/p10k.zsh" "$ZDOTDIR/.zshrc"
 
-    # tmux-new-session
-    local contrib="$ZDOTDIR/.zprezto/contrib/tmux-new-session"
-    mkdir -p "$contrib"
-    get_prestobuntu_file "tmux-new-session.plugin.zsh" "$contrib/tmux-new-session.plugin.zsh"
+    # tmux auto-attach on ssh login; must be the first line of .zshrc so it
+    # runs before the p10k instant prompt grabs the tty
+    get_prestobuntu_file "tmux-autoattach.zsh" "$ZDOTDIR/tmux-autoattach.zsh"
+    local attach_line="source \${ZDOTDIR:-\$HOME}/tmux-autoattach.zsh"
+    if ! grep -qsxF "$attach_line" "$ZDOTDIR/.zshrc"; then
+        sed -i "1i $attach_line" "$(readlink -f "$ZDOTDIR/.zshrc")"
+    fi
 
     # fzf-tab
     git clone https://github.com/Aloxaf/fzf-tab "$ZPREZTODIR/contrib/fzf-tab"

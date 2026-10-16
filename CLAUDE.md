@@ -20,7 +20,8 @@ Target: Ubuntu 22.04+ (`check_ubuntu_version` hard-fails below 22).
   - `prestobuntu.zsh` → `$XDG_CONFIG_HOME/zsh/prestobuntu.zsh` (aliases, completion, history, ssh-agent fix)
   - `p10k.zsh` → powerlevel10k prompt (generated; do not hand-edit)
   - `zpreztorc` → prezto config
-  - `tmux-new-session.plugin.zsh` → prezto contrib plugin (auto-attaches to `prezto` session)
+  - `tmux-autoattach.zsh` → `$XDG_CONFIG_HOME/zsh/tmux-autoattach.zsh`, sourced as the first
+    line of `.zshrc` (attaches SSH logins to a per-login session grouped with `prezto`)
   - `tmux.conf` → `$XDG_CONFIG_HOME/tmux/tmux.conf` (prefix `C-a`, vi mode, tpm plugins)
   - `init.lua` → `~/.config/nvim/init.lua` (lazy.nvim plugin manager)
   - `ssh-agent.service` → user systemd unit for ssh-agent
