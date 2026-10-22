@@ -54,7 +54,7 @@ should do before running any arbitrary shell script from the Internet).
 Re-running `bash setup` on an already-provisioned machine currently fails in
 `setup_tmux`, which clones its tmux plugins unconditionally; under `set -e` the
 "already exists" error aborts the whole run. Remove
-`~/.config/tmux/plugins` first, or skip that step, until this is fixed.
+`$XDG_CONFIG_HOME/tmux/plugins` (defaults to `~/.config/tmux/plugins`) first, or skip that step, until this is fixed.
 
 Config files (`init.lua`, `gitconfig`, `tmux.conf`, ...) are fetched from
 GitHub rather than taken from the local checkout, so editing them next to the
