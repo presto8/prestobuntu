@@ -1,0 +1,15 @@
+# Per-machine settings; see config.local.example
+/config.local
+
+# Stray clone left in the repo root by setup_nvim's destination-less
+# "git clone ... lazy.nvim.git". lazy.nvim bootstraps itself from
+# init.lua, so nothing here should ever be a checkout of it.
+/lazy.nvim/
+
+# Backups left behind by sed -i.bak
+*.bak
+
+# Editor and OS noise
+*.swp
+*~
+.DS_Store
