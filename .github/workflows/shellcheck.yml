@@ -24,3 +24,5 @@ jobs:
           sudo apt-get install -y zsh
           zsh -n prestobuntu.zsh
           zsh -n tmux-autoattach.zsh
+          zsh -n p10k.zsh
+          zsh -n zpreztorc
