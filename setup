@@ -207,7 +207,8 @@ setup_ssh() {
     install_package openssh-server mosh
 
     if [[ -v SSH_REMOTE_ACCESS_PUBKEY ]]; then
-        mkdir -p "$HOME"/.ssh --mode 700
+        mkdir -p "$HOME"/.ssh
+        chmod 700 "$HOME"/.ssh
         touch "$HOME"/.ssh/authorized_keys
         _require_line "$SSH_REMOTE_ACCESS_PUBKEY" "$HOME"/.ssh/authorized_keys
         chmod 600 "$HOME"/.ssh/authorized_keys
