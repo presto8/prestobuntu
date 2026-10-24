@@ -188,11 +188,52 @@ install_pscripts() {
     done
 }
 
-enable_sudo_without_password() {
-    if ! sudo grep -q NOPASSWD /etc/sudoers; then
-        : Allow sudo without password
-        sudo sed -E -i.bak 's|^(%sudo.+ALL:ALL\)) (ALL)|\1 NOPASSWD:SETENV: \2|' /etc/sudoers
+_install_sudoers_snippet() {
+    : "_install_sudoers_snippet <name> <line>... -- validates before installing"
+    local name=$1 dest staged tmp
+    shift
+    dest=/etc/sudoers.d/$name
+    # sudo ignores filenames containing '.', so a staged file here is never
+    # read until the mv below renames it into place
+    staged=/etc/sudoers.d/.$name.new
+
+    if ! sudo grep -qE '^[@#]includedir[[:space:]]+/etc/sudoers.d' /etc/sudoers; then
+        die "/etc/sudoers does not include /etc/sudoers.d; refusing to edit sudoers"
     fi
+
+    tmp=$(mktemp)
+    printf '%s\n' "$@" >"$tmp"
+
+    if sudo cmp -s "$tmp" "$dest"; then
+        rm -f "$tmp"
+        return 0
+    fi
+
+    # Never install a sudoers file we have not parsed: a syntax error in
+    # /etc/sudoers.d locks the machine out of sudo entirely.
+    if ! sudo visudo -cf "$tmp" >/dev/null; then
+        rm -f "$tmp"
+        die "generated sudoers snippet '$name' is invalid; not installing"
+    fi
+
+    info "installing $dest"
+    # install writes $staged directly, then mv (a same-directory rename) puts
+    # it at $dest atomically, so $dest is never partially written
+    if ! sudo install -o root -g root -m 0440 "$tmp" "$staged" \
+        || ! sudo mv -f "$staged" "$dest"; then
+        rm -f "$tmp"
+        sudo rm -f "$staged"
+        die "failed to install $dest"
+    fi
+    rm -f "$tmp"
+}
+
+enable_sudo_without_password() {
+    : Allow sudo without password
+    # SETENV is required for the "sudo -E" calls elsewhere in this script
+    _install_sudoers_snippet prestobuntu-nopasswd \
+        '# Managed by prestobuntu' \
+        '%sudo ALL=(ALL:ALL) NOPASSWD:SETENV: ALL'
 }
 
 remove_sudo_warning() {
@@ -200,7 +241,9 @@ remove_sudo_warning() {
 }
 
 pass_http_thru_sudo() {
-    _require_line 'Defaults:%sudo env_keep += "http_proxy https_proxy"' /etc/sudoers
+    _install_sudoers_snippet prestobuntu-proxy \
+        '# Managed by prestobuntu' \
+        'Defaults:%sudo env_keep += "http_proxy https_proxy"'
 }
 
 setup_ssh() {
