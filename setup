@@ -440,7 +440,9 @@ setup_nvim() {
     mkdir -p "$nvimdir"
     get_prestobuntu_file "init.lua" "$nvimdir/init.lua"
     install_package fzf
-    # lazy.nvim bootstraps itself on first nvim launch; see init.lua
+    # lazy.nvim bootstraps itself on first nvim launch; see init.lua (ensure parent dir exists for git clone)
+    local nvimdata="${XDG_DATA_HOME:-$HOME/.local/share}/nvim"
+    mkdir -p "$nvimdata"/lazy
 }
 
 setup_static_ip_address() {
