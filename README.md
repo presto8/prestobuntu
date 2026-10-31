@@ -30,6 +30,8 @@ so, but the script is not fully idempotent yet — see "Re-running" below.
     mru, copilot.vim
 - Shell
   - zsh with prezto
+  - Auto-attach to tmux, corgi or herdr on SSH login (set `AUTOATTACH` in
+    `user_config` inside `setup`; default is tmux)
 - User interface
   - Create Gruvbox dark profile for gnome-terminal and neovim
 
