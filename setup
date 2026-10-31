@@ -4,7 +4,7 @@ set -Eeu -o pipefail
 
 user_config() {
     # Uncomment the desired installation mode below
-    # INSTALL_MODE="user,system"
+    INSTALL_MODE="user,system"
     # INSTALL_MODE="user-only"
     # INSTALL_MODE="system-only"
 
@@ -45,10 +45,10 @@ main() {
 
     if [[ $INSTALL_MODE == *system* ]]; then
         info "configuring system settings"
-        change_hostname
+        # change_hostname
         remove_package thunderbird
         remove_package rhythmbox
-        setup_static_ip_address
+        # setup_static_ip_address
         make_journald_persistent
         allow_user_to_view_journalctl
         remove_update_messages_from_motd
@@ -251,6 +251,15 @@ setup_git() {
 }
 
 get_internet_file() {
+    # Preserve the user's existing file if we are about to overwrite it.
+    # Numbered backups keep the full history across repeated runs.
+    if [[ -f "$2" ]]; then
+        local n=1
+        while [[ -e "$2.bak.$n" ]]; do
+            ((n += 1))
+        done
+        cp "$2" "$2.bak.$n"
+    fi
     # Use -4 to force IPv4 since IPv6 is broken on some systems
     wget -4 "$1" -O "$2"
 }
@@ -481,7 +490,7 @@ disable_service() {
 }
 
 disable_unwanted_services() {
-    disable_service cups cups-browsed whoopsie colord
+    disable_service whoopsie
 
     # note: can't uninstall evolution since it will break Ubuntu; prevent the processes from starting
     sudo find /usr/libexec -type f -name 'evolution-*' -exec chmod -x "{}" \;
