@@ -22,6 +22,9 @@ user_config() {
     # ENABLE_TINYPROXY_PORT=8888
     # ENABLE_TINYPROXY_SUBNET=192.168.0.0/16
 
+    # Set the auto-attach multiplexer: tmux, corgi or herdr
+    # AUTOATTACH="corgi"
+
     # Set a static IP address for an Interface
     # STATIC_IFACE="eno1"
     # STATIC_ADDRESS="192.168.250.302/24"
@@ -67,6 +70,7 @@ main() {
     if [[ $INSTALL_MODE == *user* ]]; then
         setup_git
         setup_zsh_with_prezto
+        setup_autoattach
         setup_ssh
         setup_tmux
         setup_nvim
@@ -298,16 +302,56 @@ EOF
     get_prestobuntu_file "p10k.zsh" "$ZDOTDIR/p10k.zsh"
     _require_line "source $ZDOTDIR/p10k.zsh" "$ZDOTDIR/.zshrc"
 
-    # tmux auto-attach on ssh login; must be the first line of .zshrc so it
-    # runs before the p10k instant prompt grabs the tty
-    get_prestobuntu_file "tmux-autoattach.zsh" "$ZDOTDIR/tmux-autoattach.zsh"
-    local attach_line="source \${ZDOTDIR:-\$HOME}/tmux-autoattach.zsh"
+    # fzf-tab
+    git clone https://github.com/Aloxaf/fzf-tab "$ZPREZTODIR/contrib/fzf-tab"
+
+    # zpreztorc
+    rm -f "$ZDOTDIR/.zpreztorc"
+    get_prestobuntu_file "zpreztorc" "$ZDOTDIR/.zpreztorc"
+}
+
+setup_autoattach() {
+    # Auto-attach to a multiplexer on ssh login; its source line must be the
+    # first line of .zshrc so it runs before the p10k instant prompt grabs
+    # the tty. The multiplexer is chosen by AUTOATTACH in user_config
+    # (tmux | corgi | herdr), defaulting to tmux, and persisted in
+    # autoattach.conf so shells that don't have the setup environment see it.
+    #
+    # This is deliberately its own step: setup_zsh_with_prezto bails out
+    # early on existing installs, and this must still reach them. Only touch
+    # .zshrc files that look prestobuntu-managed, so unrelated zsh setups
+    # are not clobbered.
+    local ZDOTDIR=$XDG_CONFIG_HOME/zsh
+
+    AUTOATTACH="${AUTOATTACH:-tmux}"
+    case $AUTOATTACH in
+        tmux|corgi|herdr) ;;
+        *) die "AUTOATTACH must be tmux, corgi or herdr (got '$AUTOATTACH')" ;;
+    esac
+
+    if [[ ! -f "$ZDOTDIR/.zshrc" ]] ||
+       ! grep -qsE 'prestobuntu\.zsh|tmux-autoattach\.zsh|autoattach\.zsh' "$(readlink -f "$ZDOTDIR/.zshrc")"; then
+        info "skipping auto-attach setup: .zshrc does not look prestobuntu-managed"
+        return
+    fi
+
+    get_prestobuntu_file "autoattach.zsh" "$ZDOTDIR/autoattach.zsh"
+    cat >"$ZDOTDIR/autoattach.conf" <<EOF
+AUTOATTACH="$AUTOATTACH"
+EOF
+
+    local attach_line="source \${ZDOTDIR:-\$HOME}/autoattach.zsh"
+    local old_attach_line="source \${ZDOTDIR:-\$HOME}/tmux-autoattach.zsh"
+    # Migrate installs that used the old tmux-only auto-attach
+    if grep -qsxF "$old_attach_line" "$ZDOTDIR/.zshrc"; then
+        sed -i "s|^$old_attach_line$|$attach_line|" "$(readlink -f "$ZDOTDIR/.zshrc")"
+    fi
     if ! grep -qsxF "$attach_line" "$ZDOTDIR/.zshrc"; then
         sed -i "1i $attach_line" "$(readlink -f "$ZDOTDIR/.zshrc")"
     fi
 
-    # p10k instant prompt; must come after the tmux auto-attach line (see
-    # above) but before anything else that prints during startup
+    # p10k instant prompt; must come right after the auto-attach line but
+    # before anything else that prints during startup
     if ! grep -qsF 'p10k-instant-prompt-' "$ZDOTDIR/.zshrc"; then
         local zshrc instant_prompt
         zshrc=$(readlink -f "$ZDOTDIR/.zshrc")
@@ -326,13 +370,6 @@ EOF
         sed -i "${n}r $instant_prompt" "$zshrc"
         rm -f "$instant_prompt"
     fi
-
-    # fzf-tab
-    git clone https://github.com/Aloxaf/fzf-tab "$ZPREZTODIR/contrib/fzf-tab"
-
-    # zpreztorc
-    rm -f "$ZDOTDIR/.zpreztorc"
-    get_prestobuntu_file "zpreztorc" "$ZDOTDIR/.zpreztorc"
 }
 
 setup_tmux() (
